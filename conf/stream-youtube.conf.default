@@ -1,0 +1,18 @@
+# Find these info on your youtube livestream dashboard.
+# The url is something like rtmp://a.rtmp.youtube.com/live2
+RTMP_URL=
+STREAM_KEY=
+
+FPS=25
+# Youtube recommends keyframe every 2 seconds, i.e. double the FPS.
+KEYFRAME=50
+
+# Bitrates follow Youtube recommendations for the resprective resolutions.
+# HD resolution
+WIDTH=1280
+HEIGHT=720
+BITRATE=4000000
+# lowest resolution
+#WIDTH=360
+#HEIGHT=240
+#BITRATE=1000000

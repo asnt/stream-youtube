@@ -1,0 +1,34 @@
+#!/bin/sh
+
+RTMP_URL=""
+STREAM_KEY=""
+FPS=25
+KEYFRAME=50
+WIDTH=1280
+HEIGHT=720
+BITRATE=4000000
+
+CONFIG_FILE=/etc/stream-youtube/stream-youtube.conf
+
+if [ ! -f $CONFIG_FILE ]; then
+	echo "error: config file not found or not accessible: $CONFIG_FILE" 1>&2
+	exit 1
+fi
+
+source $CONFIG_FILE
+
+if [ -z $RTMP_URL ]; then
+	echo "error: RTMP_URL not set" 1>&2
+	exit 1
+fi
+if [ -z $STREAM_KEY ]; then
+	echo "error: STREAM_KEY not set" 1>&2
+	exit 1
+fi
+
+raspivid -o - -t 0 -w $WIDTH -h $HEIGHT -fps $FPS -b $BITRATE -g $KEYFRAME | \
+	ffmpeg -re \
+	-ar 44100 -ac 2 -acodec pcm_s16le \
+	-f s16le -ac 2 -i /dev/zero \
+	-f h264 -i - -vcodec copy -acodec aac -ab 128k -g $KEYFRAME -strict experimental \
+	-f flv $RTMP_URL/$STREAM_KEY

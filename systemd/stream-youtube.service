@@ -1,0 +1,11 @@
+[Unit]
+Description=Stream to YouTube live
+
+[Service]
+Environment="PATH=/opt/vc/bin/:$PATH"
+ExecStart=/usr/bin/stream-youtube
+Restart=always
+TimeoutSec=5
+
+[Install]
+WantedBy=default.target
