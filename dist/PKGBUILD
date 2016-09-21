@@ -1,0 +1,22 @@
+# Maintainer: asnt <snt.alex@gmail.com>
+pkgname=stream-youtube
+pkgver=0.0
+pkgrel=1
+pkgdesc="Stream the Raspberry Pi video live to Youtube"
+arch=("armv6h" "armv7h")
+license=('GPL')
+source=("$pkgname-$pkgver.tar.gz")
+md5sums=()	# use updpkgsums to generate automatically from source archive
+
+package() {
+	cd "$pkgname-$pkgver"
+
+	install -dm755 "$pkgdir/etc/$pkgname"
+	install -Dm644 "conf/$pkgname.conf.default" "$pkgdir/etc/$pkgname/$pkgname.conf"
+
+	install -dm755 "$pkgdir/usr/bin"
+	install -Dm755 "scripts/$pkgname" "$pkgdir/usr/bin/"
+
+	install -dm755 "$pkgdir/usr/lib/systemd/user"
+	install -Dm644 "systemd/$pkgname.service" "$pkgdir/usr/lib/systemd/user/"
+}
