@@ -26,6 +26,9 @@ if [ -z $STREAM_KEY ]; then
 	exit 1
 fi
 
+# For raspivid on Arch Linux.
+PATH=/opt/vc/bin:$PATH
+
 raspivid -o - -t 0 -w $WIDTH -h $HEIGHT -fps $FPS -b $BITRATE -g $KEYFRAME | \
 	ffmpeg -re \
 	-ar 44100 -ac 2 -acodec pcm_s16le \
