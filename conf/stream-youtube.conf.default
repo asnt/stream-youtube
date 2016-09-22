@@ -8,11 +8,11 @@ FPS=25
 KEYFRAME=50
 
 # Bitrates follow Youtube recommendations for the resprective resolutions.
-# HD resolution
+# Resolution Bitrate
+# 1280x720  1500k-4000k
+# 854x480    500k-2000k
+# 640x360    400k-1000k
+# 426x240    300k-700k
 WIDTH=1280
 HEIGHT=720
 BITRATE=4000000
-# lowest resolution
-#WIDTH=360
-#HEIGHT=240
-#BITRATE=1000000
