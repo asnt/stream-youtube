@@ -1,22 +1,24 @@
 # Maintainer: asnt <snt.alex@gmail.com>
-pkgname=stream-youtube
-pkgver=0.0
+pkgname=stream-youtube-git
+pkgver=latest
 pkgrel=1
-pkgdesc="Stream the Raspberry Pi video live to Youtube"
+pkgdesc="Stream the Raspberry Pi camera live to Youtube"
 arch=("armv6h" "armv7h")
 license=('GPL')
-source=("$pkgname-$pkgver.tar.gz")
-md5sums=()	# use updpkgsums to generate automatically from source archive
+depends=("ffmpeg" "raspberrypi-firmware-tools")
+makedepends=("git")
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("$pkgname::git+http://github.com/asnt/stream-youtube.git")
+md5sums=("SKIP")
+
+pkgver() {
+    cd "$srcdir/${pkgname%-git}"
+    printf "r%s.%s" "$(git rev-list --count HEAD)" \
+                    "$(git rev-parse --short HEAD)"
+}
 
 package() {
-	cd "$pkgname-$pkgver"
-
-	install -dm755 "$pkgdir/etc/$pkgname"
-	install -Dm644 "conf/$pkgname.conf.default" "$pkgdir/etc/$pkgname/$pkgname.conf"
-
-	install -dm755 "$pkgdir/usr/bin"
-	install -Dm755 "scripts/$pkgname" "$pkgdir/usr/bin/"
-
-	install -dm755 "$pkgdir/usr/lib/systemd/user"
-	install -Dm644 "systemd/$pkgname.service" "$pkgdir/usr/lib/systemd/user/"
+    cd "$srcdir/${pkgname%-git}"
+    make DESTDIR="$pkgdir/" install
 }
