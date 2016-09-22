@@ -13,12 +13,12 @@ source=("$pkgname::git+http://github.com/asnt/stream-youtube.git")
 md5sums=("SKIP")
 
 pkgver() {
-    cd "$srcdir/${pkgname%-git}"
+    cd "$srcdir/${pkgname}"
     printf "r%s.%s" "$(git rev-list --count HEAD)" \
                     "$(git rev-parse --short HEAD)"
 }
 
 package() {
-    cd "$srcdir/${pkgname%-git}"
+    cd "$srcdir/${pkgname}"
     make DESTDIR="$pkgdir/" PREFIX="/usr" install
 }
